@@ -1,16 +1,9 @@
-import { Profile } from "./Profile"
 
-function Gallery() {
+import { BreedersPage } from "./pages/BreedersPage"
 
 
-  return (
-    <>
-      <h1>Amazing scientists</h1>
-      <Profile />
-      <Profile />
-      <Profile />
-    </>
-  )
+function App () {
+  return <BreedersPage />
 }
 
-export default Gallery
+export default App
