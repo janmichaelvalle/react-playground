@@ -1,10 +1,10 @@
-import { breeders } from "../../data/breeders"
+import type { Breeder } from "../../data/breeders"
 import { BreederRow } from "./BreederRow"
 
 
 
 
-export function BreedersTable() {
+export function BreedersTable({breeders}: {breeders:Breeder[]}) {
   return (
     <table>
       <thead>
