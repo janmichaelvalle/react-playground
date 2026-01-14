@@ -14,6 +14,7 @@ export function BreedersPage() {
   const addButtonClick = (event: React.MouseEvent) => {
     setShowModal(true);
   }
+
   return (
     <>
       <h1>Breeders</h1>
@@ -21,22 +22,18 @@ export function BreedersPage() {
       <button onClick={
         addButtonClick
       }>Add</button>
-     {showModal &&
-  <AddBreederModal
-    open={showModal}
-    onOpenChange={setShowModal}
-    onAddBreeder={(breeder) => {
-      setBreeders([
-        ...breeders,
-        {
-          ...breeder,
-          id: Math.random().toString(36).slice(2), // generate unique id
-          status: "active", // default status
-        },
-      ])
-    }}
-  />
-}
+      <AddBreederModal
+        showModal={showModal}
+        onOpenModal={() => {
+          setShowModal(true)
+        }}
+        onCloseModal={() => {
+          setShowModal(false)
+        }} // actual function
+        
+        setBreeders={setBreeders}
+      />
+    
     </>
   )
 }

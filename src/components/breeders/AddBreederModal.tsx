@@ -6,42 +6,73 @@ import {
     DialogDescription,
 } from "@/components/ui/dialog"
 import { useState } from "react"
+import { type Breeder } from "@/data/breeders"
 
 
 
 type AddBreederModalProps = {
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  showModal: boolean
+  onOpenModal: () => void
+  onCloseModal: () => void
   onAddBreeder: (breeder: { name: string; gender: string; breed: string }) => void
+  setBreeders: React.Dispatch<React.SetStateAction<Breeder[]>>
 }
 
 
 
 
-export function AddBreederModal( {open, onOpenChange, onAddBreeder}: AddBreederModalProps) {
+export function AddBreederModal( {showModal, onOpenModal, onCloseModal, setBreeders }: AddBreederModalProps) {
     const [name, setName] = useState("Alex")
     const [gender, setGender] = useState<"male" | "female">("male")
     const [breed, setBreed] = useState("Holland Lop")
 
+    const onAddBreeder = (newBreeder: { name: string; gender: string; breed: string }) => {
+        setBreeders((prevBreeders) => {
+            // Must return a new state value (breeders)
+            return [
+                ...prevBreeders,
+                {
+                    ...newBreeder,
+                    id: Math.random().toString(36).slice(2), // generate unique id
+                    status: "Active", // default status,
+                    gender: gender
+                },
+            ]
+        })
+    }
+    
+
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault()
          onAddBreeder({
-      name,
-      gender,
-      breed,
-    })
+            name,
+            gender,
+            breed,
+        })
 
         console.log({
             name,
             gender,
             breed,
         })
-        onOpenChange(false)
+        onCloseModal()
+    }
+
+    if (showModal === false) {
+        return undefined
     }
 
     return (
-        <Dialog dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-md">
+        <Dialog open={showModal} onOpenChange={
+            (open) => {
+                if (open) {
+                    onOpenModal()
+                } else {
+                    onCloseModal()
+                }
+            }
+        }>
+            <DialogContent className={"sm:max-w-md"}>
                 <DialogHeader>
                     <DialogTitle>Add Breeder</DialogTitle>
                     <DialogDescription>

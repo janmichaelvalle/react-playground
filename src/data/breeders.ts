@@ -1,15 +1,15 @@
 
 export type Breeder = {
   id: string
-  name: string
+  name?: string
   gender: "male" | "female"
-  breed: string
-  age: string
-  weight: string
-  litters: number
-  kits: number
-  color: string
-  status: "Active" | "Inactive"
+  breed?: string
+  age?: string
+  weight?: string
+  litters?: number
+  kits?: number
+  color?: string
+  status?: "Active" | "Inactive"
 }
 
 export const breeders: Breeder[] = [
