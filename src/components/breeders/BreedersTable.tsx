@@ -13,6 +13,7 @@ export function BreedersTable({breeders}: {breeders:Breeder[]}) {
           <th>Gender</th>
           <th>Breed</th>
           <th>Status</th>
+          <th>Edit</th>
         </tr>
       </thead>
       <tbody>
