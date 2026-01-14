@@ -14,7 +14,6 @@ type AddBreederModalProps = {
   showModal: boolean
   onOpenModal: () => void
   onCloseModal: () => void
-  onAddBreeder: (breeder: { name: string; gender: string; breed: string }) => void
   setBreeders: React.Dispatch<React.SetStateAction<Breeder[]>>
 }
 
