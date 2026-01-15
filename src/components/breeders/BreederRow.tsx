@@ -34,6 +34,7 @@ export function BreederRow({ breeder, is_disabled }: BreederRowProps) {
           setShowModal(false)
         }}
         breeder={breeder}
+      
         />
         </td>
     </tr>

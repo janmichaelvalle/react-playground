@@ -1,7 +1,8 @@
 /*
 1. [Done] When the Edit button is clicked in BreedersTable, the modal will pop-up with just static data
 2. [Done] Populate the modal with the data based on what row the user clicked
-3. Use can change name, gender, breed and click save
+3. User can change name, gender, breed and click save
+    onEditBreeder in BreedersPage.tsx
 4. Save changes will be applied 
 */ 
 
@@ -20,21 +21,40 @@ import { useState } from "react"
 
 
 type EditBreederModalsProps  = {
+    // Step 2 from breeder row
     breeder: Breeder
+    // Step 1: Props from breeder row
     showModal: boolean
     onOpenModal: () => void
     onCloseModal: () => void
+    onEditBreeder: (updatedBreeder: Breeder) => void
 }
 
-
-export function EditBreederModal ( {breeder, showModal, onOpenModal, onCloseModal}: EditBreederModalsProps) {
+export function EditBreederModal ( {breeder, showModal, onOpenModal, onCloseModal, onEditBreeder}: EditBreederModalsProps) {
     const [name, setName] = useState(breeder.name)
     const [gender, setGender] = useState(breeder.gender)
     const [breed, setBreed] = useState(breeder.breed)
+
+    const updatedBreeder = {
+        ...breeder,
+        name,
+        gender,
+        breed,
+    };
+
+     const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault()
+        onEditBreeder(updatedBreeder)
+         
+        console.log(updatedBreeder)
+        onCloseModal()
+    }
+
     
-    // console.log(breeder)
 
     return (
+ 
+        // Step 1
      <Dialog open={showModal} onOpenChange={
         (open) => {
             if (open) {
@@ -44,6 +64,8 @@ export function EditBreederModal ( {breeder, showModal, onOpenModal, onCloseModa
             }
         }
      }>
+
+          
             <DialogContent className={"sm:max-w-md"}>
                 <DialogHeader>
                     <DialogTitle>Edit Breeder</DialogTitle>
@@ -52,6 +74,7 @@ export function EditBreederModal ( {breeder, showModal, onOpenModal, onCloseModa
                     </DialogDescription>
                 </DialogHeader>
 
+                   <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Name */}
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-medium">Name</label>
@@ -110,6 +133,7 @@ export function EditBreederModal ( {breeder, showModal, onOpenModal, onCloseModa
                             Save
                         </button>
                     </div>
+                    </form>
               
             </DialogContent>
         </Dialog>

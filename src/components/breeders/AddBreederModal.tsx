@@ -135,7 +135,7 @@ export function AddBreederModal( {showModal, onOpenModal, onCloseModal, setBreed
                             type="submit"
                             className="bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-black/90"
                         >
-                            Save
+                            Add
                         </button>
                     </div>
                 </form>
