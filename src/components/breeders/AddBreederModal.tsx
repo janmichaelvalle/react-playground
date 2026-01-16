@@ -25,6 +25,7 @@ export function AddBreederModal( {showModal, onOpenModal, onCloseModal, setBreed
     const [gender, setGender] = useState<"male" | "female">("male")
     const [breed, setBreed] = useState("Holland Lop")
 
+
     const onAddBreeder = (newBreeder: { name: string; gender: string; breed: string }) => {
         setBreeders((prevBreeders) => {
             // Must return a new state value (breeders)

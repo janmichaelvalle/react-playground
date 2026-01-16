@@ -17,33 +17,49 @@ import {
     DialogTitle,
     DialogDescription,
 } from "@/components/ui/dialog"
-import { useState } from "react"
+import { useState, useRef } from "react"
 
 
 type EditBreederModalsProps  = {
     // Step 2 from breeder row
-    breeder: Breeder
     // Step 1: Props from breeder row
     showModal: boolean
     onOpenModal: () => void
     onCloseModal: () => void
     onEditBreeder: (updatedBreeder: Breeder) => void
+    breederToUpdate: Breeder
 }
 
-export function EditBreederModal ( {breeder, showModal, onOpenModal, onCloseModal, onEditBreeder}: EditBreederModalsProps) {
-    const [name, setName] = useState(breeder.name)
-    const [gender, setGender] = useState(breeder.gender)
-    const [breed, setBreed] = useState(breeder.breed)
+export function EditBreederModal ( {breederToUpdate, showModal, onOpenModal, onCloseModal, onEditBreeder}: EditBreederModalsProps) {
+    
+    
+    const [gender, setGender] = useState(breederToUpdate.gender)
+    const [breed, setBreed] = useState(breederToUpdate.breed)
 
-    const updatedBreeder = {
-        ...breeder,
-        name,
-        gender,
-        breed,
-    };
+
+    
 
      const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault()
+
+        // Get the value of input fields via the "name" property
+        
+        // Step 1. declare FormData
+        const form = event.target;
+
+        const formData = new FormData(form)
+
+        // Step 2. Get the fields from formData using formData.get()
+
+        const updatedName = formData.get("name-input")
+
+        const updatedBreeder = {
+            ...breederToUpdate,
+            name: updatedName,
+            gender,
+            breed,
+        };
+
         onEditBreeder(updatedBreeder)
          
         console.log(updatedBreeder)
@@ -79,10 +95,15 @@ export function EditBreederModal ( {breeder, showModal, onOpenModal, onCloseModa
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-medium">Name</label>
                         <input
+                            name="name-input"
                             type="text"
                             className="border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            // // Controlled input / Via "value" + "onChannge" prop and useState
+                            // value={}
+                            // onChange={}
+
+                            // Uncontrolled input / not using "value" prop and "onChange" prop. defaultValue optional if you need to display inital value
+                            defaultValue={breederToUpdate.name}
                         />
                     </div>
 

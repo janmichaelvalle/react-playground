@@ -1,6 +1,6 @@
 import { BreedersTable } from "../components/breeders/BreedersTable"
 import { AddBreederModal } from "../components/breeders/AddBreederModal"
-import { breeders as initialBreeders } from "@/data/breeders"
+import { breeders as initialBreeders, type Breeder } from "@/data/breeders"
 import React from "react"
 import { EditBreederModal } from "@/components/breeders/EditBreederModal"
 
@@ -12,14 +12,45 @@ export function BreedersPage() {
   const [breeders, setBreeders] = React.useState(initialBreeders)
 
   // Should this be here?
-  
-  const [selectedBreeder, setSelectedBreeder] = React.useState(null)
+  const [breederToUpdate, setBreederToUpdate] = React.useState<Breeder | null>(null)
   const [showEditModal, setshowEditModal] = React.useState(false)
 
 
   const addButtonClick = (event: React.MouseEvent) => {
     setShowModal(true);
   }
+
+
+  
+  const editButtonClick = (breederId: string) => {
+    // Handle all edit logic here...
+
+    setshowEditModal(true)
+
+    
+    
+  // Find the passed breeder ID from the whole breeders list
+  const findBreederToUpdate = (breederToUpdateId: string) => {
+    //return breeders.find((existingBreeder) => {
+    //   if (existingBreeder.id === breederToUpdateId) {
+    //     return true
+    //   }
+    //   return false
+    // })
+
+   return breeders.find((existingBreeder) => existingBreeder.id === breederToUpdateId)
+  }
+
+    const breederToUpdate = findBreederToUpdate(breederId)
+
+    console.log("BREEDER TO UPDATE: ", breederToUpdate)
+    // setBreederToUpdate(breederToUpdate ?? null)
+
+    if (breederToUpdate) {
+      setBreederToUpdate(breederToUpdate)
+    }
+  }
+
 
 
   // Recevies updated breeder
@@ -50,7 +81,10 @@ export function BreedersPage() {
   return (
     <>
       <h1>Breeders</h1>
-      <BreedersTable breeders={breeders} />
+      <BreedersTable 
+        breeders={breeders} 
+        editButtonClick={editButtonClick}
+      />
       <button onClick={
         addButtonClick
       }>Add</button>
@@ -65,19 +99,22 @@ export function BreedersPage() {
         
         setBreeders={setBreeders}
       />
-      <EditBreederModal
+    
+    {breederToUpdate && (
+      <EditBreederModal 
         showModal={showEditModal}
         onOpenModal={() => {
-          setShowModal(true)
+          setshowEditModal(true)
         }}
         onCloseModal={() => {
-          setShowModal(false)
+          setshowEditModal(false)
         }} 
-        breeder={breeder}
-
+        breederToUpdate = {breederToUpdate}
         onEditBreeder={onEditBreeder}
 
       />
+    ) }
+      
     
     </>
   )

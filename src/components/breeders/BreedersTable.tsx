@@ -1,10 +1,13 @@
 import type { Breeder } from "../../data/breeders"
 import { BreederRow } from "./BreederRow"
 
+type BreedersTable = {
+  breeders: Breeder[]
+  editButtonClick: () => void
+}
 
 
-
-export function BreedersTable({breeders}: {breeders:Breeder[]}) {
+export function BreedersTable({ breeders, editButtonClick }: BreedersTable) {
   return (
     <table>
       <thead>
@@ -18,7 +21,12 @@ export function BreedersTable({breeders}: {breeders:Breeder[]}) {
       </thead>
       <tbody>
         {breeders.map((breeder) => (
-          <BreederRow key={breeder.id} breeder={breeder} is_disabled={false} />
+        <BreederRow 
+          key={breeder.id} 
+          breeder={breeder} 
+          is_disabled={false} 
+          editButtonClick={editButtonClick}
+        />
         ))}
 
       </tbody>

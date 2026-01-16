@@ -7,16 +7,14 @@ import { EditBreederModal } from "./EditBreederModal"
 type BreederRowProps = {
   breeder: Breeder
   is_disabled: boolean
+  editButtonClick: (id: string) => void
 }
 
-export function BreederRow({ breeder, is_disabled }: BreederRowProps) {
-
-   const [showModal, setShowModal] = React.useState(false)
-
-  const editButtonClick = (event: React.MouseEvent) => {
-    setShowModal(true)
-  }
-
+export function BreederRow({ breeder, is_disabled, editButtonClick }: BreederRowProps) {
+ const passBreederIdToEditButtonClick = () => {
+  editButtonClick(breeder.id)
+}
+  
   return (
     <tr>
       <td>{breeder.name}</td>
@@ -24,18 +22,9 @@ export function BreederRow({ breeder, is_disabled }: BreederRowProps) {
       <td>{breeder.breed}</td>
       <td>{breeder.status}</td>
       <td>
-        <button onClick={editButtonClick}>Edit</button>
-        <EditBreederModal 
-        showModal={showModal}
-        onOpenModal={() => {
-          setShowModal(true)
-        }}
-        onCloseModal={() => {
-          setShowModal(false)
-        }}
-        breeder={breeder}
-      
-        />
+        <button onClick={passBreederIdToEditButtonClick}>
+          Edit ({breeder.id})
+        </button>
         </td>
     </tr>
   )
