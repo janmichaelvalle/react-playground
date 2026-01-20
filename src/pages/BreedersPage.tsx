@@ -54,28 +54,14 @@ export function BreedersPage() {
 
 
   // Recevies updated breeder
-  function onEditBreeder(updatedBreeder) {
-    console.log("Updated breeder received:", updatedBreeder)
-    // setBreeders updated new breeders list
-  setBreeders(function (prevBreeders) {
-     console.log("Previous breeders list:", prevBreeders)
-    // Loops through every breeder
-    return prevBreeders.map(function (breeder) {
-      console.log("Checking breeder:", breeder)
-      // Identifies the breeder to update
-      if (breeder.id === updatedBreeder.id) {
-        console.log("MATCH FOUND. Updating breeder:", breeder.id)
-        setSelectedBreeder(breeder)
-        return {
-          ...breeder,
-          ...updatedBreeder,
-        }
-      }
-      // Keep unchanged breeder
-      console.log("No match. Keeping breeder:", breeder.id)
-      return breeder
-    })
-  })
+function onEditBreeder(updatedBreeder) {
+  setBreeders(prevBreeders =>
+    prevBreeders.map(breeder =>
+      breeder.id === updatedBreeder.id ? { ...breeder, ...updatedBreeder } : breeder
+    )
+  );
+  setshowEditModal(false);      // Close the modal
+  setBreederToUpdate(null);     // Clear the selected breeder
 }
 
   return (

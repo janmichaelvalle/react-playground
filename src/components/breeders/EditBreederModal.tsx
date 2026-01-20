@@ -4,7 +4,7 @@
 3. User can change name, gender, breed and click save
     onEditBreeder in BreedersPage.tsx
 4. Save changes will be applied 
-*/ 
+*/
 
 import type { Breeder } from "@/data/breeders"
 
@@ -20,7 +20,7 @@ import {
 import { useState, useRef } from "react"
 
 
-type EditBreederModalsProps  = {
+type EditBreederModalsProps = {
     // Step 2 from breeder row
     // Step 1: Props from breeder row
     showModal: boolean
@@ -30,20 +30,15 @@ type EditBreederModalsProps  = {
     breederToUpdate: Breeder
 }
 
-export function EditBreederModal ( {breederToUpdate, showModal, onOpenModal, onCloseModal, onEditBreeder}: EditBreederModalsProps) {
-    
-    
-    const [gender, setGender] = useState(breederToUpdate.gender)
-    const [breed, setBreed] = useState(breederToUpdate.breed)
+export function EditBreederModal({ breederToUpdate, showModal, onOpenModal, onCloseModal, onEditBreeder }: EditBreederModalsProps) {
 
 
-    
 
-     const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault()
 
         // Get the value of input fields via the "name" property
-        
+
         // Step 1. declare FormData
         const form = event.target;
 
@@ -52,36 +47,39 @@ export function EditBreederModal ( {breederToUpdate, showModal, onOpenModal, onC
         // Step 2. Get the fields from formData using formData.get()
 
         const updatedName = formData.get("name-input")
+        const updatedGender = formData.get("gender")
+        const updatedBreed = formData.get("breed-input")
+
 
         const updatedBreeder = {
             ...breederToUpdate,
             name: updatedName,
-            gender,
-            breed,
+            gender: updatedGender,
+            breed: updatedBreed,
         };
 
         onEditBreeder(updatedBreeder)
-         
+
         console.log(updatedBreeder)
         onCloseModal()
     }
 
-    
+
 
     return (
- 
-        // Step 1
-     <Dialog open={showModal} onOpenChange={
-        (open) => {
-            if (open) {
-                onOpenModal()
-            } else {
-                onCloseModal()
-            }
-        }
-     }>
 
-          
+        // Step 1
+        <Dialog open={showModal} onOpenChange={
+            (open) => {
+                if (open) {
+                    onOpenModal()
+                } else {
+                    onCloseModal()
+                }
+            }
+        }>
+
+
             <DialogContent className={"sm:max-w-md"}>
                 <DialogHeader>
                     <DialogTitle>Edit Breeder</DialogTitle>
@@ -90,7 +88,7 @@ export function EditBreederModal ( {breederToUpdate, showModal, onOpenModal, onC
                     </DialogDescription>
                 </DialogHeader>
 
-                   <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Name */}
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-medium">Name</label>
@@ -116,8 +114,8 @@ export function EditBreederModal ( {breederToUpdate, showModal, onOpenModal, onC
                                 <input
                                     type="radio"
                                     name="gender"
-                                    checked={gender === "male"}
-                                    onChange={() => setGender("male")}
+                                    value="male"
+                                    defaultChecked={breederToUpdate.gender === "male"}
                                 />
                                 Male
                             </label>
@@ -126,8 +124,9 @@ export function EditBreederModal ( {breederToUpdate, showModal, onOpenModal, onC
                                 <input
                                     type="radio"
                                     name="gender"
-                                    checked={gender === "female"}
-                                    onChange={() => setGender("female")}
+                                    value="female"
+                                    defaultChecked={breederToUpdate.gender === "female"}
+
                                 />
                                 Female
                             </label>
@@ -138,10 +137,10 @@ export function EditBreederModal ( {breederToUpdate, showModal, onOpenModal, onC
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-medium">Breed</label>
                         <input
+                            name="breed-input"
                             type="text"
                             className="border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-                            value={breed}
-                            onChange={(e) => setBreed(e.target.value)}
+                            defaultValue={breederToUpdate.breed}
                         />
                     </div>
 
@@ -154,9 +153,9 @@ export function EditBreederModal ( {breederToUpdate, showModal, onOpenModal, onC
                             Save
                         </button>
                     </div>
-                    </form>
-              
+                </form>
+
             </DialogContent>
         </Dialog>
-        )
+    )
 }

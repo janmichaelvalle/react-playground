@@ -21,6 +21,7 @@ export function BreedersTable({ breeders, editButtonClick }: BreedersTable) {
       </thead>
       <tbody>
         {breeders.map((breeder) => (
+          // The code below passes props from this file to BreederRow.tsx.
         <BreederRow 
           key={breeder.id} 
           breeder={breeder} 
