@@ -8,12 +8,17 @@ type BreederRowProps = {
   breeder: Breeder
   is_disabled: boolean
   editButtonClick: (id: string) => void
+  deleteButtonClick: (id: string) => void
 }
 
 // The props from BreedersTalbe.tsx should be here.
-export function BreederRow({ breeder, is_disabled, editButtonClick }: BreederRowProps) {
+export function BreederRow({ breeder, is_disabled, editButtonClick, deleteButtonClick }: BreederRowProps) {
  const passBreederIdToEditButtonClick = () => {
   editButtonClick(breeder.id)
+}
+
+const passBreederIdToDeleteButtonClick = () => {
+  deleteButtonClick(breeder.id)
 }
   
   return (
@@ -28,7 +33,7 @@ export function BreederRow({ breeder, is_disabled, editButtonClick }: BreederRow
         </button>
         </td>
         <td>
-        <button onClick={passBreederIdToEditButtonClick}>
+        <button onClick={passBreederIdToDeleteButtonClick}>
           Delete ({breeder.id})
         </button>
         </td>

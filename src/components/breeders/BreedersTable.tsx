@@ -4,10 +4,11 @@ import { BreederRow } from "./BreederRow"
 type BreedersTable = {
   breeders: Breeder[]
   editButtonClick: () => void
+  deleteButtonClick: () => void
 }
 
 
-export function BreedersTable({ breeders, editButtonClick }: BreedersTable) {
+export function BreedersTable({ breeders, editButtonClick, deleteButtonClick }: BreedersTable) {
   return (
     <table>
       <thead>
@@ -27,6 +28,7 @@ export function BreedersTable({ breeders, editButtonClick }: BreedersTable) {
           breeder={breeder} 
           is_disabled={false} 
           editButtonClick={editButtonClick}
+          deleteButtonClick={deleteButtonClick}
         />
         ))}
 

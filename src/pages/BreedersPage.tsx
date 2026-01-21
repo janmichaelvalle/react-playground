@@ -3,6 +3,7 @@ import { AddBreederModal } from "../components/breeders/AddBreederModal"
 import { breeders as initialBreeders, type Breeder } from "@/data/breeders"
 import React from "react"
 import { EditBreederModal } from "@/components/breeders/EditBreederModal"
+import { DeleteBreederModal } from '@/components/breeders/DeleteBreederModal'
 
 
 export function BreedersPage() {
@@ -11,35 +12,49 @@ export function BreedersPage() {
   const [showModal, setShowModal] = React.useState(false)
   const [breeders, setBreeders] = React.useState(initialBreeders)
 
+
   // Should this be here?
   const [breederToUpdate, setBreederToUpdate] = React.useState<Breeder | null>(null)
   const [showEditModal, setshowEditModal] = React.useState(false)
+  const [showDeleteModal, setShowDeleteModal] = React.useState(false)
+  const [breederToDelete, setBreederToDelete] = React.useState<Breeder | null>(null)
 
 
   const addButtonClick = (event: React.MouseEvent) => {
     setShowModal(true);
   }
 
+  const deleteButtonClick = (id: string) => {
+  const breeder = breeders.find(b => b.id === id) || null;
+  setBreederToDelete(breeder);
+  setShowDeleteModal(true);
+}
 
-  
+const onDeleteBreeder = (id: string) => {
+  setBreeders(prev => prev.filter(b => b.id !== id));
+  setShowDeleteModal(false);
+  setBreederToDelete(null);
+}
+
+
   const editButtonClick = (breederId: string) => {
     // Handle all edit logic here...
 
     setshowEditModal(true)
 
-    
-    
-  // Find the passed breeder ID from the whole breeders list
-  const findBreederToUpdate = (breederToUpdateId: string) => {
-    //return breeders.find((existingBreeder) => {
-    //   if (existingBreeder.id === breederToUpdateId) {
-    //     return true
-    //   }
-    //   return false
-    // })
 
-   return breeders.find((existingBreeder) => existingBreeder.id === breederToUpdateId)
-  }
+
+    // Find the passed breeder ID from the whole breeders list
+    const findBreederToUpdate = (breederToUpdateId: string) => {
+      //return breeders.find((existingBreeder) => {
+      //   if (existingBreeder.id === breederToUpdateId) {
+      //     return true
+      //   }
+      //   return false
+      // })
+
+      return breeders.find((existingBreeder) => existingBreeder.id === breederToUpdateId)
+    }
 
     const breederToUpdate = findBreederToUpdate(breederId)
 
@@ -54,22 +69,23 @@ export function BreedersPage() {
 
 
   // Recevies updated breeder
-function onEditBreeder(updatedBreeder) {
-  setBreeders(prevBreeders =>
-    prevBreeders.map(breeder =>
-      breeder.id === updatedBreeder.id ? { ...breeder, ...updatedBreeder } : breeder
-    )
-  );
-  setshowEditModal(false);      // Close the modal
-  setBreederToUpdate(null);     // Clear the selected breeder
-}
+  function onEditBreeder(updatedBreeder) {
+    setBreeders(prevBreeders =>
+      prevBreeders.map(breeder =>
+        breeder.id === updatedBreeder.id ? { ...breeder, ...updatedBreeder } : breeder
+      )
+    );
+    setshowEditModal(false);      // Close the modal
+    setBreederToUpdate(null);     // Clear the selected breeder
+  }
 
   return (
     <>
       <h1>Breeders</h1>
-      <BreedersTable 
-        breeders={breeders} 
+      <BreedersTable
+        breeders={breeders}
         editButtonClick={editButtonClick}
+        deleteButtonClick={deleteButtonClick}
       />
       <button onClick={
         addButtonClick
@@ -81,27 +97,42 @@ function onEditBreeder(updatedBreeder) {
         }}
         onCloseModal={() => {
           setShowModal(false)
-        }} 
-        
+        }}
+
         setBreeders={setBreeders}
       />
-    
-    {breederToUpdate && (
-      <EditBreederModal 
-        showModal={showEditModal}
+
+      {breederToUpdate && (
+        <EditBreederModal
+          showModal={showEditModal}
+          onOpenModal={() => {
+            setshowEditModal(true)
+          }}
+          onCloseModal={() => {
+            setshowEditModal(false)
+          }}
+          breederToUpdate={breederToUpdate}
+          onEditBreeder={onEditBreeder}
+
+        />
+      )}
+
+      <DeleteBreederModal
+        showModal={showDeleteModal}
         onOpenModal={() => {
-          setshowEditModal(true)
+          setShowDeleteModal(true)
         }}
         onCloseModal={() => {
-          setshowEditModal(false)
-        }} 
-        breederToUpdate = {breederToUpdate}
-        onEditBreeder={onEditBreeder}
+          setShowDeleteModal(false)
+        }}
+        breederToDelete={breederToDelete}
+        onDeleteBreeder={onDeleteBreeder}
+       
 
       />
-    ) }
-      
-    
+
+
+
     </>
   )
 }
