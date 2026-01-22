@@ -10,7 +10,9 @@ export function BreedersPage() {
 
   // The state shows if the modal is visible right now
   const [showModal, setShowModal] = React.useState(false)
-  const [breeders, setBreeders] = React.useState(initialBreeders)
+
+  // Breeders is array of objects
+  const [breeders, setBreeders] = React.useState<Breeders[]>(initialBreeders)
 
 
   // Should this be here?
@@ -25,16 +27,22 @@ export function BreedersPage() {
   }
 
   const deleteButtonClick = (id: string) => {
-  const breeder = breeders.find(b => b.id === id) || null;
-  setBreederToDelete(breeder);
-  setShowDeleteModal(true);
-}
+    const breeder = breeders.find(b => b.id === id) || null;
+    setBreederToDelete(breeder);
+    setShowDeleteModal(true);
+  }
 
-const onDeleteBreeder = (id: string) => {
-  setBreeders(prev => prev.filter(b => b.id !== id));
-  setShowDeleteModal(false);
-  setBreederToDelete(null);
-}
+  const onDeleteBreeder = (id: string) => {
+    setBreeders(
+      (prev) => {
+        // Make b => b.id !== id more explicit. Why is this shortcut valid?
+        const updatedBreeder = prev.filter(b => b.id !== id)
+        return updatedBreeder
+      }
+    );
+    setShowDeleteModal(false);
+    setBreederToDelete(null);
+  }
 
 
   const editButtonClick = (breederId: string) => {
@@ -65,8 +73,6 @@ const onDeleteBreeder = (id: string) => {
       setBreederToUpdate(breederToUpdate)
     }
   }
-
-
 
   // Recevies updated breeder
   function onEditBreeder(updatedBreeder) {
@@ -127,7 +133,7 @@ const onDeleteBreeder = (id: string) => {
         }}
         breederToDelete={breederToDelete}
         onDeleteBreeder={onDeleteBreeder}
-       
+
 
       />
 
