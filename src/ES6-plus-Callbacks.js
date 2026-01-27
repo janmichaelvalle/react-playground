@@ -28,6 +28,74 @@ var breeders = [
         name: 'breeder-3', gender: "male" // index = 1
     }
 ];
+var newBreedersList = [
+    { id: "B-001", name: "Bubbles", gender: "male", breed: "Rex", age: "2 years", weight: "5 lbs", litters: 3, kits: 5, color: "Brown", status: "Active" },
+    { id: "B-002", name: "Snow", gender: "female", breed: "Lionhead", age: "1 year", weight: "4 lbs", litters: 11, kits: 2, color: "White", status: "Inactive" },
+    { id: "B-003", name: "Oreo", gender: "male", breed: "Dutch", age: "3 years", weight: "6 lbs", litters: 4, kits: 9, color: "Black & White", status: "Active" },
+];
+/*
+1. Write a function to get all breeders with status "Active".
+*/
+var breedersActive = newBreedersList.filter(function (breeder) {
+    if (breeder.status === 'Active')
+        return breeder;
+});
+console.log(breedersActive);
+/*
+2. Write a function that returns an array of objects with each breeder’s name and a boolean indicating if they have more than 2 litters.
+
+*/
+var moreThanTwoLitters = newBreedersList.filter(function (breeder) {
+    if (breeder.litters > 2) {
+        return breeder;
+    }
+}).map(function (breeder) {
+    return ({ name: breeder.name, hasManyLitters: true });
+});
+console.log(moreThanTwoLitters);
+/*
+3. Write a function to find the breeder with the most litters.
+*/
+function findBreedersWithMostLitters(newBreedersList) {
+    var highestLitters = 0;
+    var topBreeder = null;
+    newBreedersList.forEach(function (breeder) {
+        if (breeder.litters > highestLitters) {
+            highestLitters = breeder.litters;
+            topBreeder = breeder;
+        }
+    });
+    return topBreeder;
+}
+console.log(findBreedersWithMostLitters(newBreedersList));
+/*
+
+4. Use this callback:
+Write a function that goes through the breeders array and calls printBreederInfo for each breeder whose status is "Active".
+function printBreederInfo(breeder) {
+  console.log(`${breeder.name} (${breeder.breed}) is active!`);
+}
+
+*/
+var printActiveBreeders = newBreedersList.map(function (breeder) {
+    if (breeder.status === 'Active') {
+        printBreederInfo(breeder);
+    }
+});
+function printBreederInfo(breeder) {
+    console.log("".concat(breeder.name, " (").concat(breeder.breed, ") is active!"));
+}
+/*
+5. Write a function that filters for "Active" breeders, then maps to their names and breeds as a string (e.g., "Bubbles (Rex)").
+*/
+var filterAciveAndMapToString = newBreedersList.filter(function (breeder) {
+    if (breeder.status === 'Active') {
+        return breeder;
+    }
+}).map(function (breeder) {
+    return "".concat(breeder.name, " (").concat(breeder.breed, ")");
+});
+console.log(filterAciveAndMapToString);
 // from the word itself -> "map something to a different value"
 var breedersGender = breeders.map(
 // why is it called "callback"? passed function which is going to get called by the function you just call
@@ -77,4 +145,22 @@ var firstBreeder = breeders.find(function (breeder, index) {
         return breeder;
     }
 });
-console.log(firstBreeder);
+// console.log(firstBreeder)
+// =============
+// !!ASSIGNMENT: Implementing your own function that accepts callback
+// const findFromNumber = (callback: (value: number, index: number) => any): number[] => {
+//     // TODO: Implementation
+//     // Get the return from callback
+//     const returnedValueFromCallback = callback()
+//     return [returnedValueFromCallback !== undefined ? returnedValueFromCallback : undefined]
+// }
+// const foundNumber = findFromNumber(
+//     (number, index) => {
+//     }
+// )
+// ASSIGNMENT: Implement calculator using callbacks (Use AI)
+// const two = calculator(
+//     (add, subtract) => {
+//         add(1, 1)
+//     }
+// )
